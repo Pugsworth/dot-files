@@ -1,0 +1,5 @@
+.vim/.netrw*
+.vim/*.history
+.vim/sessions/*
+!.vim/sessions/public/
+.vim/tmp/
