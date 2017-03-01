@@ -352,7 +352,7 @@ PATH=$PATH:~/opt/bin
 PATH=$PATH.:
 export PATH
 
-# ADDS MY PATH WHEN SET AS ROOT
+# Adds my path when set as root
 if [ "$(id -u)" = "0" ]; then
    export PATH=$PATH:/usr/local/bin/node
 fi
