@@ -283,12 +283,12 @@ esac
 # Find folders in /usr/local/bin and add them to path
 # is this a good idea?
 
-# Dangerous, but at least safer if appended rather than prepended
-PATH=$PATH.:
 PATH=$PATH:/usr/local/bin/node # add node to bins
 # not sure if the best location
 # I'm using this for my custom shell scripts and such
 PATH=$PATH:~/opt/bin
+# Dangerous, but at least safer if appended rather than prepended
+PATH=$PATH.:
 export PATH
 
 # ADDS MY PATH WHEN SET AS ROOT
