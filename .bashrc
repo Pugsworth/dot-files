@@ -241,8 +241,9 @@ fi
 ###
 # Variables
 ###
+# --no-init required if using --quit-if-one-screen
+export LESS="--quit-if-one-screen --no-init --ignore-case --status-column --tabs=4 --HILITE-UNREAD --RAW-CONTROL-CHARS"
 
-export LESS="--quit-if-one-screen --ignore-case --status-column --RAW-CONTROL-CHARS --tabs=4 --HILITE-UNREAD"
 export LESS_TERMCAP_mb=$'\E[1;31m'
 export LESS_TERMCAP_md=$'\E[1;36m'
 export LESS_TERMCAP_me=$'\E[0m'
