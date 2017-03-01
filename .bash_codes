@@ -1,56 +1,54 @@
-if [ -z $FUNCNAME ]; then
-    echo "Not called from function, exiting..."
-else
-    # Foreground colors
+# Foreground colors
 
-    local BLACKFG=`tput setaf 0`
-    local REDFG=`tput setaf 1`
-    local GREENFG=`tput setaf 2`
-    local YELLOWFG=`tput setaf 3`
-    local BLUEFG=`tput setaf 4`
-    local MAGENTAFG=`tput setaf 5`
-    local CYANFG=`tput setaf 6`
-    local WHITEFG=`tput setaf 7`
-    local DEFAULTFG=`tput setaf 9`
+_BLACKFG=`tput setaf 0`
+_REDFG=`tput setaf 1`
+_GREENFG=`tput setaf 2`
+_YELLOWFG=`tput setaf 3`
+_BLUEFG=`tput setaf 4`
+_MAGENTAFG=`tput setaf 5`
+_CYANFG=`tput setaf 6`
+_WHITEFG=`tput setaf 7`
+_DEFAULTFG=`tput setaf 9`
 
 
-    # Background colors
+# Background colors
 
-    local BLACKBG=`tput setab 0`
-    local REDBG=`tput setab 1`
-    local GREENBG=`tput setab 2`
-    local YELLOWBG=`tput setab 3`
-    local BLUEBG=`tput setab 4`
-    local MAGENTABG=`tput setab 5`
-    local CYANBG=`tput setab 6`
-    local WHITEBG=`tput setab 7`
-    local DEFAULTBG=`tput setab 9`
-
-
-    # Attributes
-
-    local RESET=`tput sgr0`
-    local BOLD=`tput bold`
-    local DIM=`tput dim`
-    local UNDERLINE=`tput smul`
-    local NOUNDERLINE=`tput rmul`
-    local BLINK=`tput blink`
-    local REVERSE=`tput rev`
-    local HIDDEN=`tput invis`
+_BLACKBG=`tput setab 0`
+_REDBG=`tput setab 1`
+_GREENBG=`tput setab 2`
+_YELLOWBG=`tput setab 3`
+_BLUEBG=`tput setab 4`
+_MAGENTABG=`tput setab 5`
+_CYANBG=`tput setab 6`
+_WHITEBG=`tput setab 7`
+_DEFAULTBG=`tput setab 9`
 
 
-    # Erasing
+# Attributes
 
-    # CLR_END=`tput el`
-    # CLR_START=`tput el1`
-    # CLR_LINE=`tput el2`
+_RESET=`tput sgr0`
+_BOLD=`tput bold`
+_DIM=`tput dim`
+_UNDERLINE=`tput smul`
+_NOUNDERLINE=`tput rmul`
+_BLINK=`tput blink`
+_REVERSE=`tput rev`
+_HIDDEN=`tput invis`
 
 
-    # Cursor
+# Erasing
 
-    local CUR_SAVE=`tput sc`
-    local CUR_REST=`tput rc`
-    local BACKSPACE=`tput cub1`
-    local INVIS=`tput civis`
-    local VIS=`tput cvvis`
-fi
+# CLR_END=`tput el`
+# CLR_START=`tput el1`
+# CLR_LINE=`tput el2`
+
+
+# Cursor
+
+_CUR_SAVE=`tput sc`
+_CUR_REST=`tput rc`
+_BACKSPACE=`tput cub1`
+_INVIS=`tput civis`
+_VIS=`tput cvvis`
+
+BASH_CODES=true
