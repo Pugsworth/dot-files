@@ -74,7 +74,62 @@ export GIT_PS1_SHOWSTASHSTATE=true
 export GIT_PS1_SHOWUNTRACKEDFILES=true
 export GIT_PS1_SHOWUPSTREAM="auto"
 export GIT_PS1_SHOWCOLORHINTS=true
-export PROMPT_GIT_MODE=true
+
+try_load_git_prompt() {
+    # first, see if git-prompt has been executed and the environment is all good
+    if [ "`type -t __git_ps1`" ]; then
+        return 1
+    fi
+
+    # if not, try to look for git-prompt.sh in known locations
+    if [ -f "git-prompt.sh" ]; then
+        source "git-prompt.sh"
+        return 1
+    elif [ -f "${HOME}/git-prompt.sh" ]; then
+        source "${HOME}/git-prompt.sh"
+        return 1
+    elif [ -f "found=$(whereis 'git-prompt.sh' | cut -f2 -d':')" ]; then
+        echo $found
+        echo "Found git-prompt.sh, linking to home"
+        ln -s "${HOME}/git-prompt.sh" "$found"
+        source "$found"
+        return 1
+    fi
+
+    # if still not, ask to git clone it to a local directory
+    shopt -s nocasematch
+    while read -p "git-prompt.sh could not be found, try downloading [Y|n]? " ans;
+    do
+        if [ -z "$ans" -o "$ans" == "y" ]; then
+            $(cd $HOME && wget "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh")
+            return 1
+        elif [ "$ans" == "n" ]; then
+            return 0
+        fi
+    done
+    shopt -u nocasematch
+
+    # otherwise, we cannot use git-prompt
+    return 0
+
+}
+
+case "$OSTYPE" in
+    cygwin)
+        try_load_git_prompt
+        if [ $? -eq 0 ]; then
+            export PROMPT_GIT_MODE=false
+        else
+            export PROMPT_GIT_MODE=true
+        fi
+        ;;
+    linux-*)
+        export PROMPT_GIT_MODE=true
+        ;;
+    *)
+        ;;
+esac
+
 giton() {
     export PROMPT_GIT_MODE=true
 }
@@ -87,48 +142,54 @@ prompt_command()
     LAST_CODE=$?
     history -a;
 
-    if [ "$color_prompt" = yes ]; then
+    # reset the PS1 so we can work on it
+    PS1=""
+
+    if [ "$color_prompt" = true ]; then
         # old and busted
         # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]@\h:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
         # the new hotness
         if [ -f "$HOME/.bash_codes" ]; then
-            source "$HOME/.bash_codes"
+            # We only need to do this once, otherwise there is slowdown
+            if [ ! -n "$BASH_CODES" ]; then
+                source "$HOME/.bash_codes"
+            fi
 
             # variables to assist with PS1 creation, modularity, and readability
-            PTXT="\[${GREENBG}${BLACKFG}\]"
+            PTXT="\[${_GREENBG}${_BLACKFG}\]"
             CWD="${PTXT} \w"
             # LEADER="\[${REDBG}\]\[${GREENFG}\]\[${BLACKFG}\] $?\[${REDFG}\]\[${BLACKBG}\]\[${BLACKBG}\]\[${GREENFG}\] "
             if [ "$LAST_CODE" -eq 0 ]; then
-                LEADER="\[${GREENFG}${BLACKBG}\]\[${BLACKBG}${GREENFG}\] "
+                LEADER="\[${_GREENFG}${_BLACKBG}\]\[${_BLACKBG}${_GREENFG}\] "
             else
-                LEADER="\[${GREENFG}${REDBG}\]\[${BLACKBG}${REDFG}\] "
+                LEADER="\[${_GREENFG}${_REDBG}\]\[${_BLACKBG}${_REDFG}\] "
+            fi
+
+            # git mode
+            local is_git="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
+            if [ "$is_git" -a "$PROMPT_GIT_MODE" = true -a "`type -t __git_ps1`" ]; then
+                local COLOR=${_BOLD}${_WHITEFG}
+                if [ -n "$PROMPT_GIT_COLOR" ]; then
+                    COLOR=$PROMPT_GIT_COLOR
+                fi
+                # PS1="${PS1}\[${BLACKFG}${GREENBG}\]\[${COLOR}\]$(__git_ps1 '  %s ')\[${BLACKFG}${GREENBG}\]"
+                PS1="\[${_RESET}\[${_BLACKFG}${_GREENBG}\]${_BLACKFG}${_BLUEBG}\]$(__git_ps1 '  %s ')\[${_BLACKFG}${_GREENBG}\]"
             fi
 
             PRE_WRAP="${PTXT}┌─"
             WRAP="└─>"
 
             if [ "${#PWD}" -gt $(( `tput cols` / 3 )) ]; then
-                PS1="\[${RESET}\]${PRE_WRAP}${CWD} \n${WRAP}"
+                PS1="\[${_RESET}\]${PRE_WRAP}${PS1}${CWD} \[${_GREENFG}${_BLACKBG}\]\[${_GREENBG}${_BLACKFG}\]\r\n${WRAP}"
             else
-                PS1="\[${RESET}\]${CWD}"
+                PS1="${PS1}\[${_RESET}\]${CWD}"
             fi
 
-            # git mode
-            local is_git="$(git rev-parse --is-inside-work-tree 2>/dev/null)"
-            if [ "$is_git" -a -n "$PROMPT_GIT_MODE" -a "`type -t __git_ps1`" ]; then
-                local COLOR=${BOLD}${WHITEFG}
-                if [ -n "$PROMPT_GIT_COLOR" ]; then
-                    COLOR=$PROMPT_GIT_COLOR
-                fi
-                # PS1="${PS1}\[${BLACKFG}${GREENBG}\]\[${COLOR}\]$(__git_ps1 '  %s ')\[${BLACKFG}${GREENBG}\]"
-                PS1="\[${RESET}${BLACKFG}${GREENBG}\]$(__git_ps1 '  %s ')\[${BLACKFG}${GREENBG}\]${PS1}"
-            fi
-
-            PS1="${PS1}\[${RESET}\]${LEADER}\[${RESET}\] "
+            PS1="${PS1}\[${_RESET}\]${LEADER}\[${_RESET}\]"
 
         else
-            PS1="\[\e[30;42m\] \w\[${RESET}\]\[\e[32m\]\[${RESET}\] "
+            PS1="\[\e[30;42m\] \w\[${_RESET}\]\[\e[32m\]\[${_RESET}\] "
         fi
         # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 
@@ -301,4 +362,10 @@ fi
 # Welcome Message
 ###
 uname -a
-echo "Prompt Git Mode: [${PROMPT_GIT_MODE:-false}]. Change with 'git(on|off)'."
+
+if [ "$PROMPT_GIT_MODE" = true ]; then
+    COLOR=${_GREENFG}
+else
+    COLOR=${_REDFG}
+fi
+echo "Prompt Git Mode: [${COLOR}${PROMPT_GIT_MODE:-false}${_RESET}]${_RESET}. Change with 'git(${_GREENFG}on${_RESET}|${_REDFG}off${_RESET})'."
