@@ -174,7 +174,7 @@ prompt_command()
                     COLOR=$PROMPT_GIT_COLOR
                 fi
                 # PS1="${PS1}\[${BLACKFG}${GREENBG}\]\[${COLOR}\]$(__git_ps1 '  %s ')\[${BLACKFG}${GREENBG}\]"
-                PS1="\[${_RESET}\[${_BLACKFG}${_GREENBG}\]\[${_BLACKFG}${_BLUEBG}\]$(__git_ps1 '  %s ')\[${_BLACKFG}${_GREENBG}\]"
+                PS1="\[${_RESET}\]\[${_BLACKFG}${_GREENBG}\]\[${_BLACKFG}${_BLUEBG}\]$(__git_ps1 '  %s ')\[${_BLACKFG}${_GREENBG}\]"
             fi
 
             PRE_WRAP="${PTXT}┌─"
