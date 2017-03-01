@@ -261,14 +261,20 @@ alias wrap="echo You\'re looking for \'fold\'"
 alias snow=let_it_snow
 alias tasks=processes_from_this_terminal
 alias pss=processes_from_this_terminal
-alias setclip='xclip -selection c'
-alias getclip='xclip -selection clipboard -o'
 alias perms='stat -c "%a %n"'
 alias humsize='numfmt --to=iec --padding 4'
 alias xcolors='xfce4-terminal --color-table'
 alias ducks='du -cks * | sort -rn | head'
 alias duckish='du -cksh * | sort -rh | head'
 alias ducksh=duckish
+
+case "$OSTYPE" in
+    linux-*)
+        alias setclip='xclip -selection c'
+        alias getclip='xclip -selection clipboard -o'
+        ;;
+    *)  ;;
+esac
 
 ###
 # Path
