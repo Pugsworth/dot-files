@@ -87,6 +87,9 @@ set showbreak=>
 set splitright
 set splitbelow
 set lazyredraw
+set synmaxcol=300 " when would anything over 300 columns even need to be highlighted?
+
+
 " tell vim that any [sh] syntax is bash (posix)
 let g:is_bash=1
 
