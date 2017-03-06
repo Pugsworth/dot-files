@@ -355,6 +355,8 @@ let g:airline_theme = "bubblegum"
 let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#branch#enabled=1
 
+let g:airline#extensions#tabline#buffer_nr_show=1
+
 " let g:hybrid_custom_term_colors = 1
 " let g:hybrid_reduced_contrast = 1
 
