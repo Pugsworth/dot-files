@@ -136,13 +136,17 @@ set writebackup
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin Initialization
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Dependencies implicitly shown via indentation
+" Plug 'dependency'
+"  Plug 'dependant'
 
 call plug#begin('~/.vim/plugged')
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
+ Plug 'junegunn/gv.vim'
 Plug 'crusoexia/vim-monokai'
 Plug 'w0ng/vim-hybrid'
 Plug 'bronson/vim-trailing-whitespace'
