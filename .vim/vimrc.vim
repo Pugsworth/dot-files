@@ -3,6 +3,7 @@ set nocompatible
 filetype plugin indent on
 set encoding=utf-8
 scriptencoding utf-8
+set viminfo="'100,<100,s100,h,f1"
 
 set clipboard=unnamed
 if has("unnamedplus")
