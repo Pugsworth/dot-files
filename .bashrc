@@ -334,6 +334,8 @@ case "$OSTYPE" in
     linux-*)
         alias setclip='xclip -selection c'
         alias getclip='xclip -selection clipboard -o'
+        # provides a quick way to "open" things from shell.
+        alias open='xdg-open'
         ;;
     cygwin)
         alias setclip='clip'
