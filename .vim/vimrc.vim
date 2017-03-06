@@ -124,10 +124,11 @@ set wildignore+=*.hg,*.git,*.svn
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Backup
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO: create or warn if directories don't exist
 set backup
-set backupdir=~/.vim/tmp,~/.tmp,~/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim/tmp,~/.tmp,~/tmp
+set backupdir=~/.vim/backup,~/.backup
+set backupskip=/tmp/backup/*,~/.backup/*
+set directory=~/.vim/swap,~/.swap
 set writebackup
 
 
