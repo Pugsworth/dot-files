@@ -366,6 +366,12 @@ let g:airline_section_c="%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts
 " => Functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+if has("strftime")
+    function! Date()
+        return strftime("%d%m%Y")
+    endfunction
+endif
+
 map <C-h> :call WinMove('h')<CR>
 map <C-j> :call WinMove('j')<CR>
 map <C-k> :call WinMove('k')<CR>
