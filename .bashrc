@@ -329,10 +329,15 @@ alias ducks='du -cks * | sort -rn | head'
 alias duckish='du -cksh * | sort -rh | head'
 alias ducksh=duckish
 
+
 case "$OSTYPE" in
     linux-*)
         alias setclip='xclip -selection c'
         alias getclip='xclip -selection clipboard -o'
+        ;;
+    cygwin)
+        alias setclip='clip'
+        alias getclip='echo "There is no default way to access the clipboard on windows."'
         ;;
     *)  ;;
 esac
