@@ -1,9 +1,25 @@
 set nocompatible
 
 filetype plugin indent on
-set encoding=utf-8
 scriptencoding utf-8
-set viminfo="'100,<100,s100,h,f1"
+augroup Encoding
+    au!
+    autocmd BufNewFile,BufRead * if &modifiable
+    autocmd BufNewFile,BufRead *    set encoding=utf-8
+    autocmd BufNewFile,BufRead * endif
+augroup END
+
+set encoding=utf-8
+
+"           +--- Remember marks for last 100 files
+"           |    +--- Remember up to 100 lines in each regsiter
+"           |    |    +--- Remember 100 bytes in each register
+"           |    |    |    +--- no hlsearch on load
+"           |    |    |    | +--- Remember uppercase marks
+"           |    |    |    | |  +--- Remember last 500 commands
+"           |    |    |    | |  |
+"           v    v    v    v v  v
+set viminfo='100,<100,s100,h,f1,:500
 
 set clipboard=unnamed
 if has("unnamedplus")
@@ -32,6 +48,14 @@ colorscheme monokai_mine
 " hi LineNr       ctermfg=DarkGrey
 " hi CursorLine   ctermbg=237
 " hi CursorColumn cterm=bold
+
+if exists(":Airline")
+    " link the splitter line between windows to the color
+    " of the airline mode indicator
+    " hi VertSplit      cterm=none ctermfg=7 ctermbg=235
+    hi clear VertSplit
+    hi link VertSplit airline_a
+endif
 
 if s:settings.is_win || s:settings.is_cygwin
 "     echo "Fixing Comment ctermfg"
@@ -89,6 +113,7 @@ set splitright
 set splitbelow
 set lazyredraw
 set synmaxcol=300 " when would anything over 300 columns even need to be highlighted?
+set virtualedit=block
 
 
 " tell vim that any [sh] syntax is bash (posix)
@@ -117,6 +142,8 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 set list
 set listchars=extends:>,precedes:<,tab:\|\ ,eol:↲
 
+set fillchars=vert:┆,fold:-
+
 set wildignore+=*.pyc,*.luac
 set wildignore+=*.DS_Store
 set wildignore+=*.hg,*.git,*.svn
@@ -142,37 +169,56 @@ set writebackup
 
 call plug#begin('~/.vim/plugged')
 
+" High Use
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'vim-airline/vim-airline'
- Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-fugitive'
- Plug 'junegunn/gv.vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'crusoexia/vim-monokai'
-Plug 'w0ng/vim-hybrid'
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'ryanoasis/vim-devicons'
-Plug 'sheerun/vim-polyglot'
-Plug 'mustache/vim-mustache-handlebars'
+ Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'rgarver/Kwbd.vim'
 Plug 'chrisbra/NrrwRgn'
 Plug 'chrisbra/Recover.vim'
-Plug 'vim-ctrlspace/vim-ctrlspace'
-Plug 'torrancew/vim-openscad'
-Plug 'jeetsukumaran/vim-indentwise'
-Plug 'garbas/vim-snipmate'
+Plug 'godlygeek/tabular'
+Plug 'majutsushi/tagbar'
+Plug 'mhinz/vim-startify'
+
+" Git
+Plug 'tpope/vim-fugitive'
+ Plug 'junegunn/gv.vim'
+Plug 'airblade/vim-gitgutter'
+
+" snippets
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
-Plug 'honza/vim-snippets'
-Plug 'ap/vim-css-color'
+ Plug 'garbas/vim-snipmate'
+ Plug 'honza/vim-snippets'
+
+" themes
 Plug 'flazz/vim-colorschemes'
+Plug 'crusoexia/vim-monokai'
+Plug 'w0ng/vim-hybrid'
+
+" util
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'ryanoasis/vim-devicons'
+Plug 'sheerun/vim-polyglot'
+
+" syntax
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'torrancew/vim-openscad'
+
+" etc
+Plug 'jeetsukumaran/vim-indentwise'
+Plug 'ap/vim-css-color'
 " Plug 'qualiabyte/vim-colorstepper'
-Plug 'godlygeek/tabular'
 " Plug 'mtth/scratch.vim'
+"
+" airline - comes after everything else
+Plug 'vim-airline/vim-airline'
+ Plug 'vim-airline/vim-airline-themes'
+
 
 
 call plug#end()
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Mappings
@@ -187,10 +233,17 @@ map <leader>sv :so ~/.vim/vimrc.vim<CR>
 " edit .bashrc
 map <leader>eb :e! ~/.bashrc<CR>
 
+" no comment
+noremap <leader>w :w<CR>
+
+" default Y to yank including newline doesn't make sense
+nnoremap Y y$
+
 " Closes a buffer with expected behaviour of 'tabs'
 " closes the buffer, creates a new blank buffer if last one
-map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
-map <leader>Q :bp<bar>sp<bar>bn<bar>bd!<CR>
+" map <leader>q :bp<bar>sp<bar>bn<bar>bd<CR>
+" map <leader>Q :bp<bar>sp<bar>bn<bar>bd!<CR>
+nmap <leader>q <Plug>Kwbd
 
 " Folding using <space>
 nnoremap <space> za
@@ -221,14 +274,14 @@ nnoremap # #``
 
 nnoremap <silent> <F3> :set paste!<CR>
 imap <silent> <F3> <C-O><F3>
-vmap <silent> <F3> <C-O><F3>
 
 nnoremap <silent> <F4> :NERDTreeToggle<CR>
 imap <silent> <F4> <C-O><F4>
 
 nnoremap <silent> <F6> :set spell!<CR>
 imap <silent> <F6> <C-O><F6>
-vmap <silent> <F6> <C-O><F6>
+
+nnoremap <F8> :TagbarToggle<CR>
 
 " Nice little function to echo the F key mappings
 function! FKeyMappings()
@@ -275,6 +328,7 @@ nmap <silent> <F1> :FKeyMappings<CR>
 function! DoComment(cmt)
     :s/\v^(\s*)(.+)$/\=
         \printf("%s%s %s", submatch(1), a:cmt, submatch(2))
+        \/e
 endfunction
 
 function! DoUncomment(cmt)
@@ -297,7 +351,15 @@ function! ToggleComment(line)
     if has_key(l:cmt_ovr, b:current_syntax)
         let l:cpat=l:cmt_ovr[b:current_syntax]
     else
-        let l:cpat=matchlist(&comments, '\%(^\|,b\|\W\):\([^,X]\+\)')[1]
+        let s:matched=matchlist(&comments, '\%(^\|,b\|\W\):\([^,X]\+\)')
+        echomsg s:matched
+
+        if empty(s:matched)
+            echomsg "Comment match failed, does &comments contain a valid comment?"
+            return
+        endif
+
+        let l:cpat=s:matched[1]
     endif
 
     " echom "Using character (" . l:cpat . ") for comment."
@@ -352,6 +414,7 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 " => Plugin settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Airline
 let g:airline#extensions#tabline#enabled = 1     " buffers as 'tabs'
 let g:airline#extensions#tabline#fnamemod = ':t' " just filename
 let g:airline_powerline_fonts = 1 " requires patched fonts - https://github.com/powerline/fonts
@@ -369,6 +432,21 @@ let g:airline#extensions#tabline#show_tabs=0
 " let g:hybrid_reduced_contrast = 1
 
 let g:airline_section_c="%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts#readonly(),0)}%#__restore__#"
+
+" Tagbar
+let g:tagbar_autofocus=1
+
+" NERDTree
+" re-sourcing vimrc causes the NERDTree icons to break
+if exists("g:loaded_webdevicons")
+    call webdevicons#refresh()
+endif
+
+" Startify
+let g:startify_custom_header=[""]
+let g:startify_update_oldfiles=1
+let g:startify_change_to_dir=1
+" let g:startify_use_env=1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Functions
@@ -401,9 +479,9 @@ function! WinMove(key)
 endfunction
 
 
-nmap <leader>T :enew<CR>
-nmap <leader>l :bnext<CR>
-nmap <leader>h :bprevious<CR>
+" nmap <leader>T :enew<CR>
+" nmap <leader>l :bnext<CR>
+" nmap <leader>h :bprevious<CR>
 
 " swap line down
 nmap <ESC>N :m +1<CR>
@@ -423,16 +501,38 @@ nnoremap <F2> :call NumberToggle()<CR>
 "" cnoremap <C-n> <CR>n/<C-p>
 "" cnoremap <C-m> <CR>n?<C-p>
 
+" when adding more to the list on another line, escape the first quote
+" (:help line-continuation)
+let s:synbl = ['help', 'nerdtree']
+" called before Enter/Leave to determine if we do anything
+function! PreSyntax()
+    if !&l:modifiable || index(s:synbl, &l:syntax) != -1
+        return 0
+    endif
+
+    return 1
+endfunction
+
 " Changes the syntax to default when leaving a buffer
 function! SyntaxLeave()
+    let l:cont = PreSyntax()
+    if l:cont == 0
+        return
+    endif
+
     let b:syntax_name = &filetype
     let &l:syntax = "text"
 endfunc
 
 " Changes the syntax back using the buffer variable b:syntax_name
 function! SyntaxEnter()
+    let l:cont = PreSyntax()
+    if l:cont == 0
+        return
+    endif
+
     try
-        let &l:syntax = b:syntax_name
+        let &syntax = b:syntax_name
     catch /^Vim\%((\a\+)\)\=:E121/
         " normal :echo "Uh oh! Failed to reset syntax"
     endtry
@@ -440,15 +540,42 @@ endfunc
 
 augroup Focus
     autocmd!
-    autocmd BufLeave,FocusLost,WinLeave,BufWinLeave     * set norelativenumber
-    autocmd BufEnter,FocusGained,WinEnter,BufWinEnter   * set relativenumber
+    " autocmd BufLeave,FocusLost,WinLeave,BufWinLeave     * set norelativenumber
+    " autocmd BufEnter,FocusGained,WinEnter,BufWinEnter   * set relativenumber
 
-    autocmd BufLeave,FocusLost,WinLeave,BufWinLeave     * setlocal  nocursorline
-    autocmd BufEnter,FocusGained,WinEnter,BufWinEnter   * setlocal  cursorline
+    " autocmd BufLeave,FocusLost,WinLeave,BufWinLeave     * setlocal nocursorline
+    " autocmd BufEnter,FocusGained,WinEnter,BufWinEnter   * setlocal cursorline
 
-    autocmd BufLeave,FocusLost,WinLeave,BufWinLeave     * :call SyntaxLeave()
-    autocmd BufEnter,FocusGained,WinEnter,BufWinEnter   * :call SyntaxEnter()
+    " autocmd BufLeave,FocusLost,WinLeave,BufWinLeave     * :call SyntaxLeave()
+    " autocmd BufEnter,FocusGained,WinEnter,BufWinEnter   * :call SyntaxEnter()
+    autocmd BufLeave     * :call SyntaxLeave()
+    autocmd BufEnter     * :call SyntaxEnter()
 augroup END
+
+" Don't explicitly restrict to 80 columns, but implicitly warn if gone over
+" from https://github.com/thoughtstream/Damian-Conway-s-Vim-Setup/blob/master/.vimrc
+highlight ColorColumn ctermfg=208 ctermbg=Black
+
+function! MarkMargin (on)
+    if exists('b:MarkMargin')
+        try
+            call matchdelete(b:MarkMargin)
+        catch /./
+        endtry
+        unlet b:MarkMargin
+    endif
+    if a:on
+        let b:MarkMargin = matchadd('ColorColumn', '\%81v\s*\S', 100)
+    endif
+endfunction
+
+augroup MarkMargin
+    autocmd!
+    autocmd  BufEnter  *       :call MarkMargin(1)
+    autocmd  BufEnter  *.vp*   :call MarkMargin(0)
+augroup END
+
+
 
 function! ShowQuickReference()
     :silent !firefox "https://cdn.shopify.com/s/files/1/0165/4168/files/preview.png"
