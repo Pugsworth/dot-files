@@ -352,7 +352,6 @@ function! ToggleComment(line)
         let l:cpat=l:cmt_ovr[b:current_syntax]
     else
         let s:matched=matchlist(&comments, '\%(^\|,b\|\W\):\([^,X]\+\)')
-        echomsg s:matched
 
         if empty(s:matched)
             echomsg "Comment match failed, does &comments contain a valid comment?"
