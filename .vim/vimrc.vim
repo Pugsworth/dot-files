@@ -94,7 +94,7 @@ set shiftround
 set foldmethod=syntax
 set foldnestmax=10
 set nofoldenable
-set foldlevel=1
+set foldlevel=99
 
 " miscellaneous
 set scrolloff=3
