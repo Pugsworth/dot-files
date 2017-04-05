@@ -350,7 +350,7 @@ PATH=$PATH:/usr/local/bin/node # add node to bins
 # I'm using this for my custom shell scripts and such
 PATH=$PATH:~/opt/bin
 # Dangerous, but at least safer if appended rather than prepended
-PATH=$PATH.:
+PATH=$PATH:.
 export PATH
 
 # Adds my path when set as root
