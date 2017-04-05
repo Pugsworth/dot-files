@@ -192,6 +192,8 @@ prompt_command()
         fi
         # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 
+    else
+        PS1="\h\w $ "
     fi
     # unset color_prompt force_color_prompt
 
