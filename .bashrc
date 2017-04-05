@@ -370,3 +370,23 @@ else
     COLOR=${_REDFG}
 fi
 echo "Prompt Git Mode: [${COLOR}${PROMPT_GIT_MODE:-false}${_RESET}]${_RESET}. Change with 'git(${_GREENFG}on${_RESET}|${_REDFG}off${_RESET})'."
+
+# A solution to kill/yank syncing to system clipboard
+# proposed by "ephemient"
+# http://stackoverflow.com/questions/994563/integrate-readlines-kill-ring-and-the-x11-clipboard
+
+# _xdiscard() {
+    # echo -n "${READLINE_LINE:0:$READLINE_POINT}" | xclip
+    # READLINE_LINE="${READLINE_LINE:$READLINE_POINT}"
+    # READLINE_POINT=0
+# }
+# _xkill() {
+    # echo -n "${READLINE_LINE:$READLINE_POINT}" | xclip
+    # READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}"
+# }
+# _xyank() {
+    # READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$(xclip -o)${READLINE_LINE:$READLINE_POINT}"
+# }
+# bind -m emacs -x '"\eu": _xdiscard'
+# bind -m emacs -x '"\ek": _xkill'
+# bind -m emacs -x '"\ey": _xyank'
