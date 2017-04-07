@@ -1,0 +1,54 @@
+# Foreground colors
+
+_BLACKFG=`tput setaf 0`
+_REDFG=`tput setaf 1`
+_GREENFG=`tput setaf 2`
+_YELLOWFG=`tput setaf 3`
+_BLUEFG=`tput setaf 4`
+_MAGENTAFG=`tput setaf 5`
+_CYANFG=`tput setaf 6`
+_WHITEFG=`tput setaf 7`
+_DEFAULTFG=`tput setaf 9`
+
+
+# Background colors
+
+_BLACKBG=`tput setab 0`
+_REDBG=`tput setab 1`
+_GREENBG=`tput setab 2`
+_YELLOWBG=`tput setab 3`
+_BLUEBG=`tput setab 4`
+_MAGENTABG=`tput setab 5`
+_CYANBG=`tput setab 6`
+_WHITEBG=`tput setab 7`
+_DEFAULTBG=`tput setab 9`
+
+
+# Attributes
+
+_RESET=`tput sgr0`
+_BOLD=`tput bold`
+_DIM=`tput dim`
+_UNDERLINE=`tput smul`
+_NOUNDERLINE=`tput rmul`
+_BLINK=`tput blink`
+_REVERSE=`tput rev`
+_HIDDEN=`tput invis`
+
+
+# Erasing
+
+# CLR_END=`tput el`
+# CLR_START=`tput el1`
+# CLR_LINE=`tput el2`
+
+
+# Cursor
+
+_CUR_SAVE=`tput sc`
+_CUR_REST=`tput rc`
+_BACKSPACE=`tput cub1`
+_INVIS=`tput civis`
+_VIS=`tput cvvis`
+
+BASH_CODES=true
