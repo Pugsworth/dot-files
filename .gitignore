@@ -3,3 +3,4 @@
 .vim/sessions/*
 !.vim/sessions/public/
 .vim/tmp/
+.bash/history
