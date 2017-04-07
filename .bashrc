@@ -371,6 +371,17 @@ else
 fi
 echo "Prompt Git Mode: [${COLOR}${PROMPT_GIT_MODE:-false}${_RESET}]${_RESET}. Change with 'git(${_GREENFG}on${_RESET}|${_REDFG}off${_RESET})'."
 
+
+# autoload scripts
+# note: find in a subshell so that sourcing doesn't happen in the subshell
+if [ -d "$HOME/.bash_autoload" ]; then
+    for f in $(find "$HOME/.bash_autoload" -follow -type f -print);
+    do
+        source "$f";
+    done
+fi
+
+
 # A solution to kill/yank syncing to system clipboard
 # proposed by "ephemient"
 # http://stackoverflow.com/questions/994563/integrate-readlines-kill-ring-and-the-x11-clipboard
