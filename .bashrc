@@ -227,7 +227,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 if [ "$color_prompt" = true ]; then
-    alias ls='ls --color=auto'
+    alias ls='ls -a --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
