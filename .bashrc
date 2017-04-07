@@ -184,7 +184,7 @@ prompt_command()
             WRAP="└─>"
 
             if [ "${#PWD}" -gt $(( `tput cols` / 3 )) ]; then
-                PS1="\[${_RESET}\]${PRE_WRAP}${PS1}${CWD} \[${_GREENFG}${_BLACKBG}\]\[${_GREENBG}${_BLACKFG}\]\r\n${WRAP}"
+                PS1="\[${_RESET}\]${PRE_WRAP}${PS1}${CWD} \[${_GREENFG}${_BLACKBG}\]\[${_GREENBG}${_BLACKFG}\]\[${RESET}${_BLACKBG}\r\n\]\[${_GREENBG}${_BLACKFG}\]${WRAP}"
             else
                 PS1="${PS1}\[${_RESET}\]${CWD}"
             fi
