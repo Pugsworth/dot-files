@@ -153,10 +153,10 @@ prompt_command()
         # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]@\h:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
         # the new hotness
-        if [ -f "$HOME/.bash_codes" ]; then
+        if [ -f "$HOME/.bash/.bash_codes" ]; then
             # We only need to do this once, otherwise there is slowdown
             if [ ! -n "$BASH_CODES" ]; then
-                source "$HOME/.bash_codes"
+                source "$HOME/.bash/.bash_codes"
             fi
 
             # variables to assist with PS1 creation, modularity, and readability
@@ -253,8 +253,8 @@ fi
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+if [ -f "$HOME/.bash/.bash_aliases" ]; then
+    . "$HOME/.bash/.bash_aliases"
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -299,8 +299,8 @@ stty -ixon # Ctrl+S search history back
 # Some people use a different file for functions
 # some of my functions
 
-if [ -f "${HOME}/.bash_functions" ]; then
-  source "${HOME}/.bash_functions"
+if [ -f "${HOME}/.bash/.bash_functions" ]; then
+  source "${HOME}/.bash/.bash_functions"
 fi
 
 
@@ -378,8 +378,8 @@ echo "Prompt Git Mode: [${COLOR}${PROMPT_GIT_MODE:-false}${_RESET}]${_RESET}. Ch
 
 # autoload scripts
 # note: find in a subshell so that sourcing doesn't happen in the subshell
-if [ -d "$HOME/.bash_autoload" ]; then
-    for f in $(find "$HOME/.bash_autoload" -follow -type f -print);
+if [ -d "$HOME/.bash/autoload" ]; then
+    for f in $(find "$HOME/.bash/autoload" -follow -type f -print);
     do
         source "$f";
     done
