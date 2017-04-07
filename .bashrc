@@ -334,6 +334,12 @@ alias ducks='du -cks * | sort -rn | head'
 alias duckish='du -cksh * | sort -rh | head'
 alias ducksh=duckish
 
+# git short-hands
+alias gis="git status"
+alias gic="git commit"
+alias gia="git add"
+alias gir="git rebase"
+
 case "$OSTYPE" in
     linux-*)
         alias setclip='xclip -selection c'
@@ -379,8 +385,12 @@ echo "Prompt Git Mode: [${COLOR}${PROMPT_GIT_MODE:-false}${_RESET}]${_RESET}. Ch
 # autoload scripts
 # note: find in a subshell so that sourcing doesn't happen in the subshell
 if [ -d "$HOME/.bash/autoload" ]; then
-    for f in $(find "$HOME/.bash/autoload" -follow -type f -print);
+    for f in $(find "$HOME/.bash/autoload/" -follow -print);
     do
+        if [ -d "$f" ]; then
+            continue;
+        fi
+
         source "$f";
     done
 fi
