@@ -1,4 +1,4 @@
-# list of directories to be copied from -> to (to relative to backupdir)
+# list of directories to be copied from -> to (relative to backupdir)
 # Caution: trailing slash matters
 # trailing slash will sync the contents rather than folder itself
 #

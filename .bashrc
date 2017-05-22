@@ -177,14 +177,14 @@ prompt_command()
                     COLOR=$PROMPT_GIT_COLOR
                 fi
                 # PS1="${PS1}\[${BLACKFG}${GREENBG}\]\[${COLOR}\]$(__git_ps1 '  %s ')\[${BLACKFG}${GREENBG}\]"
-                PS1="\[${_RESET}\]\[${_BLACKFG}${_GREENBG}\]\[${_BLACKFG}${_BLUEBG}\]$(__git_ps1 '  %s ')\[${_BLACKFG}${_GREENBG}\]"
+                PS1="\[${_RESET}\]\[${_BLACKFG}${_GREENBG}\]\[${_BLACKFG}${_BLUEBG}\]$(__git_ps1 '  %s ')\[${BGTXT}\]"
             fi
 
             PRE_WRAP="${PTXT}┌─"
             WRAP="└─>"
 
             if [ "${#PWD}" -gt $(( `tput cols` / 3 )) ]; then
-                PS1="\[${_RESET}\]${PRE_WRAP}${PS1}${CWD} \[${_GREENFG}${_BLACKBG}\]\[${_GREENBG}${_BLACKFG}\]\[${RESET}${_BLACKBG}\]\r\n\[${_GREENBG}${_BLACKFG}\]${WRAP}"
+                PS1="\[${_RESET}\]${PRE_WRAP}${PS1}${CWD}\[${_GREENFG}${_BLACKBG}\]\n\[${_GREENBG}${_BLACKFG}\]${WRAP}"
             else
                 PS1="${PS1}\[${_RESET}\]${CWD}"
             fi

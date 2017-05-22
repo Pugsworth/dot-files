@@ -62,6 +62,10 @@ if s:settings.is_win || s:settings.is_cygwin
 "     hi Comment ctermfg=8
 endif
 
+if &syntax == "sh"
+    highlight PreProc cterm=none
+endif
+
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
