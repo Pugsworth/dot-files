@@ -67,7 +67,8 @@ function! DoComment(cmt)
 endfunction
 
 function! DoUncomment(cmt)
-    :execute ':s/\V\(\^\s\*\)\('.a:cmt.'\s\?\)\(\s\*\.\*\$\)/\1\3'
+    let l:esc_cmt = substitute(a:cmt, '\/', '\\/', 'g')
+    :execute ':s/\V\(\^\s\*\)\('.l:esc_cmt.'\s\?\)\(\s\*\.\*\$\)/\1\3'
 endfunction
 
 " TODO: option to only toggle comments for the comment state of the first line
