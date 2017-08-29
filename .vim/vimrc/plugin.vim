@@ -26,8 +26,9 @@ Plug 'airblade/vim-gitgutter'
 
 " snippets
 Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'SirVer/ultisnips'
 Plug 'tomtom/tlib_vim'
- Plug 'garbas/vim-snipmate'
+ " Plug 'garbas/vim-snipmate'
  Plug 'honza/vim-snippets'
 
 " themes
@@ -86,16 +87,24 @@ let g:airline_section_c="%<%F%m %#__accent_red#%{airline#util#wrap(airline#parts
 " Tagbar
 let g:tagbar_autofocus=1
 
+"
 " NERDTree
 " re-sourcing vimrc causes the NERDTree icons to break
 if exists("g:loaded_webdevicons")
     call webdevicons#refresh()
 endif
 
+"
 " Startify
+"
 let g:startify_custom_header=[""]
 let g:startify_update_oldfiles=1
 let g:startify_change_to_dir=1
 " let g:startify_use_env=1
 
-
+"
+" UltiSnips
+"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
