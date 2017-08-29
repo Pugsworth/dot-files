@@ -44,6 +44,7 @@ Plug 'sheerun/vim-polyglot'
 " syntax
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'torrancew/vim-openscad'
+Plug 'digitaltoad/vim-pug'
 
 " etc
 Plug 'jeetsukumaran/vim-indentwise'
@@ -64,8 +65,9 @@ call plug#end()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugin settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
+"
 " Airline
+"
 let g:airline#extensions#tabline#enabled = 1     " buffers as 'tabs'
 let g:airline#extensions#tabline#fnamemod = ':t' " just filename
 let g:airline_powerline_fonts = 1 " requires patched fonts - https://github.com/powerline/fonts
