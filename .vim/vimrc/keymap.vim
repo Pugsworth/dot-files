@@ -123,3 +123,4 @@ nnoremap <F2> :call NumberToggle()<CR>
 
 "" vnoremap <leader>/ '<,'>s/^\(\s\?[^"].*\)/" \1/
 
+nnoremap <silent> <C-P> :CtrlPBuffers<CR>
